@@ -23,3 +23,23 @@ SGOV, which would raise both estimated return and volatility.
 I would keep the original mix for the 6.50% target. If the committee
 required 7.00%, I would reconsider the mix and review the added volatility
 before recommending a change.
+
+### Changed-Input Result
+
+I raised the minimum expected annual return from 6.50% to 7.00%
+using the same prices.csv, All Months, and a 3.00% reserve minimum.
+
+| Measure | Before: 6.50% target | After: 7.00% target |
+|---|---:|---:|
+| SGOV weight | 65.00% | 55.00% |
+| VT weight | 35.00% | 45.00% |
+| Estimated annual return | 6.58% | 7.40% |
+| Estimated annual volatility | 5.29% | 6.77% |
+| Reserve-eligible weight | 65.00% | 55.00% |
+
+The result matched my prediction. The original portfolio fell short of
+the 7.00% target. The new mix met that target and the 3.00% reserve
+minimum, with estimated volatility rising by 1.48 percentage points.
+I would keep the original mix for the 6.50% target. If the committee
+required 7.00%, I would review the added volatility before recommending
+the 55% SGOV / 45% VT mix.
