@@ -1,10 +1,12 @@
 # FIN 439 Project 2 — Portfolio Stability Decision
 
-I used ChatGPT to help set up the repository and write the run instructions. The analysis and final decision are mine.
+I used ChatGPT to help set up the repository, write the run instructions, and develop the dashboard code and presentation. The analysis and final decision are mine.
 
 For education only. This is not investment advice.
 
 ## Run the app
+
+Python must be installed before running these commands.
 
 1. On the repo page, click **Code → Download ZIP**.
 2. Open Downloads, right-click the ZIP file, and choose **Extract All**.
