@@ -25,3 +25,22 @@ For education only. This is not investment advice.
 2. Keep the minimum expected return at **6.50%** and the minimum reserve-eligible weight at **3.00%**.
 3. Leave **Use last 36 months** unchecked for the all-months result.
 4. Scroll down to **All months vs. last 36 months** to compare the two portfolios.
+
+## Lab 20 Readiness Summary
+
+| Check | Evidence |
+|---|---|
+| Partner cold run | Completed in about 45 seconds with no issues reported |
+| Changed input | Minimum estimated annual return target increased from 6.50% to 7.00% |
+| Allocation response | VT increased from 35% to 45%; SGOV decreased from 65% to 55% |
+| Risk response | Estimated volatility increased from 5.29% to 6.77% |
+| Committee decision | Pilot the 65% SGOV / 35% VT mix under the 6.50% target |
+| Reassessment trigger | Committee raises the return target to 7.00% |
+
+The higher target required 10 percentage points more equity exposure.
+Estimated annual return rose by 0.82 percentage points, while estimated
+volatility rose by 1.48 percentage points.
+
+[Read the validation record](docs/validation-and-ai-use.md)
+
+[View the baseline results](docs/visible-output.md)
