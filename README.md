@@ -24,7 +24,8 @@ For education only. This is not investment advice.
 1. In the app sidebar, click **Upload** and select `prices.csv` from the extracted folder.
 2. Keep the minimum expected return at **6.50%** and the minimum reserve-eligible weight at **3.00%**.
 3. Leave **Use last 36 months** unchecked for the all-months result.
-4. Scroll down to **All months vs. last 36 months** to compare the two portfolios.
+4. Open the **Window stability** tab to compare all months with the last 36 months.
+5. Open the **Return target test** tab to compare the 6.50% and 7.00% targets.
 
 ## Lab 20 Readiness Summary
 
