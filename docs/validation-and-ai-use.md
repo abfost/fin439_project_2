@@ -43,3 +43,9 @@ minimum, with estimated volatility rising by 1.48 percentage points.
 I would keep the original mix for the 6.50% target. If the committee
 required 7.00%, I would review the added volatility before recommending
 the 55% SGOV / 45% VT mix.
+
+## Lab 20 Committee Decision
+
+I recommend piloting the 65% SGOV / 35% VT mix under the 6.50% return target.
+I would pause the pilot and reassess the allocation if the committee raised
+the target to 7.00%, because the current mix's estimated return is 6.58%.
