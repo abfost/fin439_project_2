@@ -376,8 +376,8 @@ try:
         eligible,
     )
 
-    overview, stability, target_test, rate_signal = st.tabs(
-        ["Portfolio overview", "Window stability", "Return target test", "Point-in-time signal"]
+    overview, stability, target_test, rate_signal, cost_test = st.tabs(
+        ["Portfolio overview", "Window stability", "Return target test", "Point-in-time signal", "Cost stress"]
     )
 
     with overview:
@@ -558,6 +558,43 @@ try:
             mime="text/csv",
         )
 
+    with cost_test:
+        st.subheader("Annual implementation cost stress")
+        annual_cost_bp = st.number_input(
+            "Additional annual portfolio cost (basis points)",
+            min_value=0.0, max_value=1000.0, value=10.0, step=1.0,
+        )
+        annual_cost = annual_cost_bp / 10000
+        st.caption(
+            "A uniform annual cost is deducted from estimated return. The optimizer "
+            "uses the same window, estimates, and reserve minimum as Portfolio overview."
+        )
+        cost_adjusted = search_lowest_risk(
+            edited, active_corr, objective + annual_cost, reserve_min, eligible
+        )
+        cost_rows = {}
+        for label, result in {
+            "Keep current weights": current,
+            "Reoptimize after costs": cost_adjusted,
+        }.items():
+            if result is None:
+                cost_rows[label] = {"Net return rule": "No feasible portfolio"}
+                continue
+            net_return = result["return"] - annual_cost
+            cost_rows[label] = {
+                "Gross return": f"{result['return']:.2%}",
+                "Net return": f"{net_return:.2%}",
+                "Annual volatility": f"{result['volatility']:.2%}",
+                "Reserve weight": f"{result['reserve']:.2%}",
+                "Net return rule": "Pass" if net_return >= objective - 1e-12 else "Fail",
+                **{f"{name} weight": f"{weight:.2%}" for name, weight in result["weights"].items()},
+            }
+        st.dataframe(pd.DataFrame.from_dict(cost_rows, orient="index"))
+        if cost_adjusted is None:
+            st.warning("Pause the process: no portfolio meets the net return and reserve thresholds.")
+        elif current is not None and current["return"] - annual_cost < objective - 1e-12:
+            st.warning("Pause the current allocation and review the reoptimized mix before proceeding.")
+
     with rate_signal:
         st.subheader("10-year Treasury yield signal")
         decision_date = pd.Timestamp("2026-10-05")
@@ -619,4 +656,5 @@ try:
 except Exception as error:
     st.error(f"Unable to compute this portfolio: {error}")
     st.stop()
+
 
