@@ -66,3 +66,12 @@ I ran these tests in the Meridian Portfolio Dashboard using the bundled `prices.
 | Shorter estimation window | Switched from all 60 monthly returns to the most recent 36. | The allocation shifted to 85% SGOV and 15% VT, with 6.81% estimated return and 1.79% volatility. The largest weight change was 20 percentage points. | Review both windows before changing the allocation because the estimated mix depends on the lookback period. |
 | Implementation cost | Applied an illustrative annual cost of 10 basis points to the entire portfolio. | The 65% SGOV / 35% VT mix fell to 6.48% net and failed the return target. Reoptimizing selected 60% SGOV / 40% VT, with 6.89% net return and 6.03% volatility. | Pause the original allocation if its estimated net return falls below 6.50%. Review the added risk before approving a replacement. |
 | Tighter reserve requirement | Raised the minimum reserve weight from 3.00% to 90.00% while keeping the 6.50% return target. | The app reported that no portfolio met both thresholds. | Stop the allocation process and ask the committee to review the constraints. |
+
+
+## ETF Price Data and Limitations
+
+The app uses the bundled `prices.csv` for SGOV, IEF, AGG, and VT. The file contains 61 monthly price rows from September 30, 2021, through September 30, 2026, which produce 60 monthly returns. The latest price observation used is September 30, 2026.
+
+The Lab 14 instructions specify monthly adjusted closes from Yahoo Finance. I could not verify the original provider, price adjustment method, or download date for the bundled file. The results can be reproduced from the committed CSV. Independent verification against the original provider remains open.
+
+The app calculates each monthly return as the current price divided by the prior price, minus one. It multiplies the mean monthly return by 12 and the monthly sample volatility by the square root of 12. The app uses these historical estimates to compare allocations. The base return estimates exclude additional implementation costs, which are tested separately in the Cost stress tab.
