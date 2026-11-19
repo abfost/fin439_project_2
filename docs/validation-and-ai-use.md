@@ -54,3 +54,15 @@ the 55% SGOV / 45% VT mix.
 I recommend piloting the 65% SGOV / 35% VT mix under the 6.50% return target.
 I would pause the pilot and reassess the allocation if the committee raised
 the target to 7.00%, because the current mix's estimated return is 6.58%.
+
+
+## Portfolio Stress Tests
+
+I ran these tests in the Meridian Portfolio Dashboard using the bundled `prices.csv`. The baseline used all 60 monthly returns, a 6.50% minimum estimated annual return, and a 3.00% minimum reserve weight. The baseline selected 65% SGOV and 35% VT, with 6.58% estimated annual return and 5.29% estimated annual volatility.
+
+| Test | Change | App result | Decision impact |
+|---|---|---|---|
+| Weaker equity outlook | Lowered VT's estimated annual return from about 11.90% to 9.90% to model a weaker equity outlook. | The optimizer selected 50% SGOV and 50% VT, with 6.81% estimated return and 7.51% volatility. | Meeting the same target required more equity exposure and higher estimated volatility. Review the risk before increasing VT. |
+| Shorter estimation window | Switched from all 60 monthly returns to the most recent 36. | The allocation shifted to 85% SGOV and 15% VT, with 6.81% estimated return and 1.79% volatility. The largest weight change was 20 percentage points. | Review both windows before changing the allocation because the estimated mix depends on the lookback period. |
+| Implementation cost | Applied an illustrative annual cost of 10 basis points to the entire portfolio. | The 65% SGOV / 35% VT mix fell to 6.48% net and failed the return target. Reoptimizing selected 60% SGOV / 40% VT, with 6.89% net return and 6.03% volatility. | Pause the original allocation if its estimated net return falls below 6.50%. Review the added risk before approving a replacement. |
+| Tighter reserve requirement | Raised the minimum reserve weight from 3.00% to 90.00% while keeping the 6.50% return target. | The app reported that no portfolio met both thresholds. | Stop the allocation process and ask the committee to review the constraints. |
