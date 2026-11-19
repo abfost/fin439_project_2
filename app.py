@@ -2,6 +2,7 @@
 
 import hashlib
 import io
+from pathlib import Path
 
 import pandas as pd
 import streamlit as st
@@ -375,8 +376,8 @@ try:
         eligible,
     )
 
-    overview, stability, target_test = st.tabs(
-        ["Portfolio overview", "Window stability", "Return target test"]
+    overview, stability, target_test, rate_signal = st.tabs(
+        ["Portfolio overview", "Window stability", "Return target test", "Point-in-time signal"]
     )
 
     with overview:
@@ -557,6 +558,57 @@ try:
             mime="text/csv",
         )
 
+    with rate_signal:
+        st.subheader("10-year Treasury yield signal")
+        decision_date = pd.Timestamp("2026-10-05")
+        st.write(f"Decision date (ALFRED vintage): {decision_date.date()}")
+        signal_file = Path(__file__).with_name("dgs10_asof_2026-10-05.csv")
+        if signal_file.is_file():
+            vintage = pd.read_csv(signal_file, parse_dates=["observation_date"])
+            rates = pd.to_numeric(vintage["DGS10_20261005"], errors="coerce")
+            known = (
+                vintage.assign(yield_pct=rates)
+                .loc[lambda frame: frame["observation_date"] <= decision_date]
+                .dropna(subset=["yield_pct"])
+                .sort_values("observation_date")
+            )
+            if len(known) >= 6:
+                earlier, latest = known.iloc[-6], known.iloc[-1]
+                change_bp = round((latest["yield_pct"] - earlier["yield_pct"]) * 100, 2)
+                st.metric(
+                    f"Latest yield ┬╖ {latest['observation_date'].date()}",
+                    f"{latest['yield_pct']:.2f}%",
+                    f"{change_bp:+.2f} bp over five observations",
+                )
+                st.write(
+                    f"Comparison: {earlier['yield_pct']:.2f}% on "
+                    f"{earlier['observation_date'].date()}."
+                )
+                if change_bp >= 10:
+                    st.warning("Review IEF duration exposure before increasing its weight.")
+                else:
+                    st.info("No duration review triggered by this signal.")
+            else:
+                st.warning("The vintage needs six available observations to calculate the signal.")
+        else:
+            st.warning("Place dgs10_asof_2026-10-05.csv next to app.py to reproduce the signal.")
+
+        with st.expander("Point-in-time data card"):
+            st.markdown(
+                "- **Source:** [ALFRED DGS10 vintage CSV]"
+                "(https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=DGS10&vintage_date=2026-10-05) "
+                "from the St. Louis Fed, originally Federal Reserve Board H.15.\n"
+                "- **Series:** Daily 10-year U.S. Treasury constant-maturity yield, "
+                "quoted on an investment basis, in percent. Downloaded November 18, 2026.\n"
+                "- **Availability:** Use the October 5 archive for the information cutoff. "
+                "The latest available observation is October 2. Observation dates measure "
+                "the yield and can precede publication. The snapshot preserves the values "
+                "available in that vintage if later corrections occur.\n"
+                "- **Decision rule:** A rise of at least 10 basis points over five available "
+                "observations flags IEF duration for review. This is an illustrative "
+                "monitoring threshold. The signal does not change optimizer inputs or weights."
+            )
+
     st.divider()
     st.caption(
         "The optimizer searches for the lowest-volatility long-only allocation meeting "
@@ -567,3 +619,4 @@ try:
 except Exception as error:
     st.error(f"Unable to compute this portfolio: {error}")
     st.stop()
+
