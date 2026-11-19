@@ -7,9 +7,14 @@
 - Elapsed time: About 45 seconds.
 - Results location: In the Streamlit app, below Current Selection in the All months vs. last 36 months table after uploading prices.csv
 
-- - Fix and rerun: The cold run was successful. No fix was needed.
+- Fix and rerun: The cold run was successful. No fix was needed.
 
-## Lab 20 Changed-Input Prediction
+## Locked Changed-Input Record
+
+- [Original pre-run prediction, November 17, 2026](https://github.com/abfost/fin439_project_2/commit/fbddbf0f3a146faef80bd94ddc05164901c0cc9e)
+- [Recorded before-and-after results, November 17, 2026](https://github.com/abfost/fin439_project_2/commit/0fb2946c0fa2ee60c45b1a2d3f436d34873cf0f6)
+
+### Changed-Input Prediction
 
 I’ll raise the minimum expected annual return from 6.50% to 7.00%.
 I’ll use the same prices.csv, keep All Months selected, and leave the
