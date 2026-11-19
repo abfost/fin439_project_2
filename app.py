@@ -12,6 +12,12 @@ from portfolio import (
     RESERVE_ELIGIBLE,
     search_lowest_risk,
     estimate_from_prices,
+    benchmark_weights,
+    covariance_matrix,
+    equal_weights,
+    expected_return,
+    inverse_volatility_weights,
+    portfolio_volatility,
 )
 
 
@@ -212,6 +218,53 @@ def comparison_table(results):
     return pd.DataFrame(rows).set_index("Scenario").round(2)
 
 
+def portfolio_comparison(sleeves, correlations, optimized, eligible,
+                         return_target, reserve_target):
+    covariance = covariance_matrix(sleeves, correlations)
+    allocations = {
+        "Equal weight": equal_weights(sleeves),
+        "Inverse volatility": inverse_volatility_weights(sleeves),
+    }
+    if set(sleeves) == set(SLEEVES):
+        allocations["40% IG bonds / 60% global equity"] = benchmark_weights(sleeves)
+    elif {"AGG", "VT"} <= set(sleeves):
+        allocations["40% AGG / 60% VT"] = {
+            name: {"AGG": 0.40, "VT": 0.60}.get(name, 0.0)
+            for name in sleeves
+        }
+
+    rows = []
+    for label, weights in allocations.items():
+        rows.append((
+            label,
+            expected_return(weights, sleeves),
+            portfolio_volatility(weights, covariance, sleeves),
+            sum(weights[name] for name in eligible),
+        ))
+    if optimized is not None:
+        rows.append((
+            "Optimized", optimized["return"], optimized["volatility"],
+            optimized["reserve"],
+        ))
+
+    comparison = []
+    for label, annual_return, volatility, reserve in rows:
+        return_pass = annual_return >= return_target - 1e-12
+        reserve_pass = reserve >= reserve_target - 1e-12
+        comparison.append({
+            "Portfolio": label,
+            "Annual return estimate": f"{annual_return:.2%}",
+            "Annual volatility": f"{volatility:.2%}",
+            "Reserve weight": f"{reserve:.2%}",
+            "Return rule": "Pass" if return_pass else "Fail",
+            "Reserve rule": "Pass" if reserve_pass else "Fail",
+            "Verdict": "Pass" if return_pass and reserve_pass else "Fail",
+        })
+    if optimized is None:
+        comparison.append({"Portfolio": "Optimized", "Verdict": "No feasible portfolio"})
+    return pd.DataFrame(comparison).set_index("Portfolio")
+
+
 try:
     if upload is None:
         baseline_sleeves = {
@@ -314,6 +367,16 @@ try:
             current,
             objective,
             reserve_min,
+        )
+
+        st.subheader("Portfolio comparison")
+        st.caption(
+            f"Same estimates for every portfolio. Annual return minimum: {objective:.2%}. "
+            f"Reserve minimum: {reserve_min:.2%}."
+        )
+        st.dataframe(
+            portfolio_comparison(edited, active_corr, current, eligible, objective, reserve_min),
+            use_container_width=True,
         )
 
         difference = maximum_change(current, baseline)
