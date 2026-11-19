@@ -72,3 +72,18 @@ The app uses the bundled `prices.csv` for SGOV, IEF, AGG, and VT. The file conta
 My lab notes list Yahoo Finance, accessed through `yfinance`, as the source for monthly dividend- and split-adjusted closing prices for SGOV, IEF, AGG, and VT. The original download date was not recorded. The results can be reproduced from the committed `prices.csv`. The CSV values have not been independently checked against the provider.
 
 The app calculates each monthly return as the current price divided by the prior price, minus one. It multiplies the mean monthly return by 12 and the monthly sample volatility by the square root of 12. The app uses these historical estimates to compare allocations. The base return estimates exclude additional implementation costs, which are tested separately in the Cost stress tab.
+
+
+## Final Fresh-Download Test
+
+I downloaded a fresh ZIP of the GitHub repository, extracted it, and ran the README commands on my Windows computer using the existing Python environment.
+
+The first attempt started in `C:\`, so pip could not find `requirements.txt`. I changed to the extracted project folder, reran `python -m pip install -r requirements.txt`, and launched the dashboard with `python -m streamlit run app.py`.
+
+| Check | Result from the fresh download |
+|---|---|
+| Portfolio overview | 65% SGOV / 35% VT, 6.58% estimated annual return, and 5.29% annual volatility. |
+| Point-in-time signal | 5.28% Treasury yield and a rise of 11 basis points. |
+| Cost stress at 10 basis points | 6.48% net at the original weights and 6.89% net after reoptimization. |
+
+All three dashboard results matched the documented results.
