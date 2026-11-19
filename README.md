@@ -1,49 +1,40 @@
-# FIN 439 Project 2 — Portfolio Stability Decision
+# FIN 439 Project 2 — Meridian Portfolio Dashboard
 
-I used ChatGPT to help set up the repository, write the run instructions, and develop the dashboard code and presentation. The analysis and final decision are mine.
+I used ChatGPT to help develop the Streamlit app, write the documentation, and check portfolio calculations. The analysis and final decision are mine.
 
 For education only. This is not investment advice.
 
-## Run the app
+## Run the app on Windows
 
-Python must be installed before running these commands.
+1. Install Python if it is not already installed.
+2. On the GitHub repository page, click **Code → Download ZIP**.
+3. In Downloads, right-click the ZIP and choose **Extract All**.
+4. Open the extracted folder containing `app.py` and `requirements.txt`. Keep `portfolio.py`, `prices.csv`, and `dgs10_asof_2026-10-05.csv` in that folder.
+5. Click the File Explorer address bar, type `cmd`, and press **Enter**.
+6. In Command Prompt, run these commands one at a time:
 
-1. On the repo page, click **Code → Download ZIP**.
-2. Open Downloads, right-click the ZIP file, and choose **Extract All**.
-3. Open the extracted folder that contains `app.py` and `requirements.txt`.
-4. On Windows, press **Alt + D**, type `cmd`, and press **Enter**.
-5. Run these commands one at a time:
-
-   ```text
+   ```cmd
    python -m pip install -r requirements.txt
    python -m streamlit run app.py
    ```
 
-6. Open the **Local URL** shown in Command Prompt if the app does not open automatically.
+7. Open the **Local URL** shown in Command Prompt if the browser does not open automatically. Leave Command Prompt running while using the dashboard.
 
-## Reproduce the portfolio results
+## Reproduce the results
 
-1. In the app sidebar, click **Upload** and select `prices.csv` from the extracted folder.
-2. Keep the minimum expected return at **6.50%** and the minimum reserve-eligible weight at **3.00%**.
-3. Leave **Use last 36 months** unchecked for the all-months result.
-4. Open the **Window stability** tab to compare all months with the last 36 months.
-5. Open the **Return target test** tab to compare the 6.50% and 7.00% targets.
+In the left sidebar, upload the bundled `prices.csv`. Set the minimum annual return estimate to **6.50%** and the minimum reserve-eligible weight to **3.00%**. Leave **Use last 36 months** unchecked.
 
-## Lab 20 Readiness Summary
-
-| Check | Evidence |
+| Tab | What to check |
 |---|---|
-| Partner cold run | Completed in about 45 seconds with no issues reported |
-| Changed input | Minimum estimated annual return target increased from 6.50% to 7.00% |
-| Allocation response | VT increased from 35% to 45%; SGOV decreased from 65% to 55% |
-| Risk response | Estimated volatility increased from 5.29% to 6.77% |
-| Committee decision | Pilot the 65% SGOV / 35% VT mix under the 6.50% target |
-| Reassessment trigger | Committee raises the return target to 7.00% |
+| Portfolio overview | The optimized allocation is 65% SGOV and 35% VT, with 6.58% estimated annual return and 5.29% volatility. The comparison shows which rules each baseline passes or fails. |
+| Window stability | The last 36 months produce 85% SGOV and 15% VT, a 20-percentage-point shift from the full window. |
+| Return target test | At a 7.00% target, the optimizer selects 55% SGOV and 45% VT. |
+| Point-in-time signal | The October 5, 2026 ALFRED vintage shows a latest available Treasury yield of 5.28% and a rise of 11 basis points over five observations. |
+| Cost stress | With an illustrative annual cost of 10 basis points, the original mix earns 6.48% net and falls below the target. Reoptimizing produces 60% SGOV and 40% VT at 6.89% net. |
 
-The higher target required 10 percentage points more equity exposure.
-Estimated annual return rose by 0.82 percentage points, while estimated
-volatility rose by 1.48 percentage points.
+## Committee decision
 
-[Read the validation record](docs/validation-and-ai-use.md)
+Consider a conditional pilot at **65% SGOV / 35% VT**. Pause and reassess if the allocation's estimated annual return after modeled costs falls below **6.50%** or if it breaches an applicable mandate rule. Review the higher equity exposure and volatility before approving a replacement allocation.
 
-[View the baseline results](docs/visible-output.md)
+- [Visible results](docs/visible-output.md)
+- [Validation, stress tests, and locked prediction](docs/validation-and-ai-use.md)
