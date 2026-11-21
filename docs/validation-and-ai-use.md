@@ -87,3 +87,12 @@ The first attempt started in `C:\`, so pip could not find `requirements.txt`. I 
 | Cost stress at 10 basis points | 6.48% net at the original weights and 6.89% net after reoptimization. |
 
 All three dashboard results matched the documented results.
+
+## AI Use and Independent Checks
+
+| Tool and date | Material assistance | Check and disposition |
+|---|---|---|
+| ChatGPT, model/version not recorded, during project development | Streamlit implementation, documentation drafts, and portfolio calculations. | The cold-run and changed-input evidence above record checks of the app outputs. |
+| ChatGPT in Codex, November 20, 2026 | Added the break-even cost and net return cushion to the dashboard. Reviewed the monthly price input checks and added guards for skipped or repeated months and nonfinite prices. | Independently recalculated the fixed-weight SGOV/VT portfolios directly from the committed prices. The 65/35 mix returned 6.57812% annualized with 5.29176% volatility. Against a 6.50% target it can absorb 7.81199 basis points of annual cost. At 10 basis points the remaining cushion is −2.18801 basis points. The 60/40 mix returned 6.98713% gross and 6.88713% net with 6.03049% volatility. These calculations verify the cost arithmetic. |
+
+For the November 20 check, Codex separately enumerated long-only allocations in 5-percentage-point increments using the committed prices. It reproduced the 85/15 result on the 36-month window, the 55/45 result at a 7.00% return target, the 60/40 result at 10 basis points of annual cost, and the 50/50 result after reducing VT's return estimate by 2 percentage points. It found no feasible allocation at a 90% reserve minimum. This arithmetic check used a separate implementation. The fresh-download Streamlit check above predates the November 20 dashboard changes.
