@@ -24,7 +24,7 @@ from portfolio import (
 
 st.set_page_config(
     page_title="Meridian Portfolio Dashboard",
-    page_icon="≡ƒôè",
+    page_icon="📊",
     layout="wide",
 )
 
@@ -55,7 +55,7 @@ st.markdown(
 )
 
 st.title("Meridian Portfolio Dashboard")
-st.caption("Alyson Foster ┬╖ FIN 439 ┬╖ Project 2")
+st.caption("Alyson Foster · FIN 439 · Project 2")
 st.caption(
     "Built with ChatGPT assistance for code and presentation. "
     "The analysis and decision are mine. For education only. "
@@ -115,9 +115,9 @@ def render_result(label, result, return_target, reserve_target):
     reserve_pass = result["reserve"] >= reserve_target - 1e-9
 
     if return_pass and reserve_pass:
-        st.success("PASS ┬╖ Return and reserve thresholds")
+        st.success("PASS · Return and reserve thresholds")
     else:
-        st.error("FAIL ┬╖ One or more selected thresholds")
+        st.error("FAIL · One or more selected thresholds")
 
     first, second, third = st.columns(3)
 
@@ -181,11 +181,11 @@ def render_result(label, result, return_target, reserve_target):
             use_container_width=True,
         )
         st.write(
-            f"Return threshold: {return_target:.2%} ┬╖ "
+            f"Return threshold: {return_target:.2%} · "
             f"{'PASS' if return_pass else 'FAIL'}"
         )
         st.write(
-            f"Reserve threshold: {reserve_target:.2%} ┬╖ "
+            f"Reserve threshold: {reserve_target:.2%} · "
             f"{'PASS' if reserve_pass else 'FAIL'}"
         )
 
@@ -317,7 +317,7 @@ try:
 
         window_label = "Last 36 months" if last_36 else "All months"
         st.info(
-            f"{upload.name} ┬╖ {n_used} monthly returns ┬╖ {window_label}"
+            f"{upload.name} · {n_used} monthly returns · {window_label}"
         )
         st.caption(
             "Returns, volatility, and correlations are historical estimates. "
@@ -472,7 +472,7 @@ try:
 
             with left:
                 render_result(
-                    f"All months ┬╖ {n_all} returns",
+                    f"All months · {n_all} returns",
                     all_result,
                     objective,
                     reserve_min,
@@ -480,7 +480,7 @@ try:
 
             with right:
                 render_result(
-                    f"Recent window ┬╖ {recent_n} returns",
+                    f"Recent window · {recent_n} returns",
                     recent_result,
                     objective,
                     reserve_min,
@@ -589,6 +589,18 @@ try:
                 "Net return rule": "Pass" if net_return >= objective - 1e-12 else "Fail",
                 **{f"{name} weight": f"{weight:.2%}" for name, weight in result["weights"].items()},
             }
+        if current is not None:
+            cost_budget_bp = (current["return"] - objective) * 10_000
+            remaining_bp = cost_budget_bp - annual_cost_bp
+            budget, remaining = st.columns(2)
+            budget.metric("Break-even annual cost", f"{cost_budget_bp:.2f} bp")
+            remaining.metric("Net return cushion", f"{remaining_bp:+.2f} bp")
+            st.caption(
+                "The break-even cost is the current allocation's gross return "
+                "minus the selected target. Above that cost, the current mix "
+                "fails the net return screen."
+            )
+
         st.dataframe(pd.DataFrame.from_dict(cost_rows, orient="index"))
         if cost_adjusted is None:
             st.warning("Pause the process: no portfolio meets the net return and reserve thresholds.")
@@ -613,7 +625,7 @@ try:
                 earlier, latest = known.iloc[-6], known.iloc[-1]
                 change_bp = round((latest["yield_pct"] - earlier["yield_pct"]) * 100, 2)
                 st.metric(
-                    f"Latest yield ┬╖ {latest['observation_date'].date()}",
+                    f"Latest yield · {latest['observation_date'].date()}",
                     f"{latest['yield_pct']:.2f}%",
                     f"{change_bp:+.2f} bp over five observations",
                 )
