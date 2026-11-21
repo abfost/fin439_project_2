@@ -37,6 +37,6 @@ The October 5, 2026 ALFRED vintage showed a 10-year U.S. Treasury yield of 5.28%
 
 ## Pilot Decision
 
-Pilot the 65% SGOV / 35% VT allocation only while its estimated annual return net of modeled costs remains at least 6.50% and the allocation meets the applicable mandate rules. At an illustrative annual implementation cost of 10 basis points, the original allocation returned 6.48% net. Reoptimizing produced 60% SGOV / 40% VT at 6.89% net, with estimated volatility rising from 5.29% to 6.03%. Pause the original pilot and review the extra equity risk before approving a change.
+Pilot the 65% SGOV / 35% VT allocation only while its estimated annual return net of modeled costs remains at least 6.50% and the allocation meets the applicable mandate rules. The reference mix’s break-even annual implementation cost is 7.81 basis points. At an illustrative annual implementation cost of 10 basis points, the original allocation returned 6.48% net. Reoptimizing produced 60% SGOV / 40% VT at 6.89% net, with estimated volatility rising from 5.29% to 6.03%. Pause the original pilot and review the extra equity risk before approving a change.
 
 [See the full stress tests and locked prediction](validation-and-ai-use.md).
