@@ -172,13 +172,13 @@ def render_result(label, result, return_target, reserve_target):
                 ],
             },
         },
-        use_container_width=True,
+        width="stretch",
     )
 
     with st.expander("View exact weights and threshold checks"):
         st.dataframe(
             allocation.set_index("Asset").round(2),
-            use_container_width=True,
+            width="stretch",
         )
         st.write(
             f"Return threshold: {return_target:.2%} · "
@@ -419,7 +419,7 @@ try:
         )
         st.dataframe(
             portfolio_comparison(edited, active_corr, current, eligible, objective, reserve_min),
-            use_container_width=True,
+            width="stretch",
         )
 
         if upload is not None and current is not None:
@@ -606,7 +606,7 @@ try:
             }
         )
 
-        st.dataframe(target_comparison, use_container_width=True)
+        st.dataframe(target_comparison, width="stretch")
 
         st.download_button(
             "Download target comparison",
