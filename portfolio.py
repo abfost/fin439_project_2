@@ -1,5 +1,5 @@
 """Lab 14 — Meridian portfolio baselines. Standard library only for original output."""
-from math import sqrt
+from math import isfinite, sqrt
 from itertools import combinations
 
 # Editable inputs. Returns and volatilities are decimals (0.035 = 3.5%).
@@ -127,9 +127,12 @@ def estimate_from_prices(csv_file, last_36=False):
     dates = pd.to_datetime(df.iloc[:, 0], errors="raise")
     if dates.isna().any() or not dates.is_monotonic_increasing or dates.duplicated().any():
         raise ValueError("Date must be valid, unique, and oldest first.")
+    month_index = dates.dt.year * 12 + dates.dt.month
+    if not month_index.diff().iloc[1:].eq(1).all():
+        raise ValueError("Prices must have exactly one observation per consecutive month.")
     prices = df.iloc[:, 1:].apply(pd.to_numeric, errors="raise")
-    if prices.isna().any().any() or (prices <= 0).any().any():
-        raise ValueError("Every price must be positive and present; no missing cells.")
+    if not all(isfinite(price) and price > 0 for row in prices.to_numpy() for price in row):
+        raise ValueError("Every price must be finite and positive.")
     returns = prices.pct_change().dropna()
     if last_36:
         returns = returns.tail(36)
