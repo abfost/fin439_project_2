@@ -30,11 +30,12 @@ In the left sidebar, upload the bundled `prices.csv`. Set the minimum annual ret
 | Window stability | The last 36 months produce 85% SGOV and 15% VT, a 20-percentage-point shift from the full window. |
 | Return target test | At a 7.00% target, the optimizer selects 55% SGOV and 45% VT. |
 | Point-in-time signal | The October 5, 2026 ALFRED vintage shows a latest available Treasury yield of 5.28% and a rise of 11 basis points over five observations. |
-| Cost stress | With an illustrative annual cost of 10 basis points, the original mix earns 6.48% net and falls below the target. Reoptimizing produces 60% SGOV and 40% VT at 6.89% net. |
+| Cost stress | The original mix can absorb 7.81 basis points of annual cost. With an illustrative annual cost of 10 basis points, the original mix earns 6.48% net and falls below the target. Reoptimizing produces 60% SGOV and 40% VT at 6.89% net. |
 
 ## Committee decision
 
 Consider a conditional pilot at **65% SGOV / 35% VT**. Pause and reassess if the allocation's estimated annual return after modeled costs falls below **6.50%** or if it breaches an applicable mandate rule. Review the higher equity exposure and volatility before approving a replacement allocation.
 
+- [Decision memo](docs/decision-memo.md)
 - [Visible results](docs/visible-output.md)
 - [Validation, stress tests, and locked prediction](docs/validation-and-ai-use.md)
