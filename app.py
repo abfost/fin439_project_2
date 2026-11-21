@@ -422,6 +422,63 @@ try:
             use_container_width=True,
         )
 
+        if upload is not None and current is not None:
+            with st.expander("Turnover and committee approval"):
+                st.caption(
+                    "Starting weights are illustrative. Enter current holdings and "
+                    "year-to-date turnover to estimate the approval requirement."
+                )
+                target = {
+                    asset: weight * 100 for asset, weight in current["weights"].items()
+                }
+                columns = st.columns(min(4, len(target)))
+                starting = {}
+                for index, (asset, target_weight) in enumerate(target.items()):
+                    starting[asset] = columns[index % len(columns)].number_input(
+                        f"Current {asset} (%)",
+                        min_value=0.0,
+                        max_value=100.0,
+                        value=round(target_weight, 2),
+                        step=1.0,
+                        key=f"turnover_start_{asset}",
+                    )
+
+                prior_turnover = st.number_input(
+                    "Year-to-date turnover before this trade (%)",
+                    min_value=0.0,
+                    value=0.0,
+                    step=1.0,
+                    key="turnover_ytd",
+                )
+                total_weight = sum(starting.values())
+                if abs(total_weight - 100.0) > 0.000001:
+                    st.warning(
+                        f"Current weights total {total_weight:.2f}%. "
+                        "Adjust them to total 100%."
+                    )
+                else:
+                    trades = {
+                        asset: weight - starting[asset]
+                        for asset, weight in target.items()
+                    }
+                    trade_turnover = sum(abs(change) for change in trades.values()) / 2
+                    annual_turnover = prior_turnover + trade_turnover
+
+                    st.dataframe(
+                        pd.DataFrame({
+                            "Current weight (%)": starting,
+                            "Target weight (%)": target,
+                            "Trade (percentage points)": trades,
+                        }).rename_axis("Asset").round(2)
+                    )
+                    first, second = st.columns(2)
+                    first.metric("Proposed trade turnover", f"{trade_turnover:.2f}%")
+                    second.metric("Projected annual turnover", f"{annual_turnover:.2f}%")
+                    if annual_turnover > 25.0 + 0.000001:
+                        st.warning("Committee approval required. Annual turnover exceeds 25%.")
+                    else:
+                        st.success("Projected annual turnover is within the 25% threshold.")
+
         difference = maximum_change(current, baseline)
 
         if difference is not None:
