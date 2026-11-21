@@ -21,7 +21,7 @@ Meridian has a seven-year horizon, annual rebalancing, and an objective of CPI p
 | 40% AGG / 60% VT benchmark | 6.97% | 10.97% | 0.00% | Fails reserve minimum |
 | 65% SGOV / 35% VT | 6.58% | 5.29% | 65.00% | Passes return and reserve screens before additional costs |
 
-The optimizer uses 60 monthly returns through September 30, 2026. The selected mix clears both numeric screens with lower estimated volatility than the benchmark. Its annual return cushion is only about 8 basis points before additional implementation costs.
+The optimizer uses 60 monthly returns through September 30, 2026. The selected mix clears both numeric screens with lower estimated volatility than the benchmark. Its annual return cushion is 7.81 basis points before additional implementation costs.
 
 ## What would change the decision
 
@@ -33,6 +33,6 @@ The optimizer uses 60 monthly returns through September 30, 2026. The selected m
 
 Review estimated net return, reserve weight, volatility, and the difference between estimation windows monthly during the pilot. Pause the reference allocation if its estimated annual return after costs falls below 6.50% or its reserve weight falls below 3.00%. Bring any replacement allocation to the committee before implementation.
 
-The October 5, 2026 ALFRED vintage showed the 10-year Treasury yield had risen 11 basis points over five available observations. That triggered an IEF duration review without changing portfolio weights. Before any capital allocation, confirm the assumed liquidity treatment and check turnover using current holdings. Ask the CIO to clarify how the calendar-year loss language should be applied.
+The October 5, 2026 ALFRED vintage showed the 10-year Treasury yield had risen 11 basis points over five available observations. That triggered an IEF duration review without changing portfolio weights. Before any capital allocation, confirm the assumed liquidity treatment and check turnover using current holdings. Ask the CIO to clarify how the calendar-year loss language should be applied. Approve monitoring only, with a separate vote before any capital is committed.
 
 [Dashboard results](visible-output.md) · [Validation and stress tests](validation-and-ai-use.md)
